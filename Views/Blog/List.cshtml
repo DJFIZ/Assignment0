@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Assignment0.Models.Blog>
+
+<html>
+<head>
+    <meta charset="utf-8">
+
+
+</head>
+    <body>
+        @foreach (var blog in Model)
+        {
+            <div>
+                <h2>@blog.Title</h2>
+                <h3>@blog.Author</h3>
+                <h4>@blog.Body</h4>
+            </div>
+        }
+    </body>
+</html>
