@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Assignment0.Models
 {
-    public class MockBlogRepository: BlogRepository
+    public class MockBlogRepository: IBlogRepository
     {
         public IEnumerable<Blog> AllBlogs =>
             new List<Blog>

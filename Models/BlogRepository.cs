@@ -5,9 +5,26 @@ using System.Threading.Tasks;
 
 namespace Assignment0.Models
 {
-    public interface BlogRepository
+    public class BlogRepository : IBlogRepository
     {
-        IEnumerable<Blog> AllBlogs { get; }
-        Blog GetBlogById(int blogId);
+        private readonly AppDbContext _appDbContext;
+
+        public BlogRepository(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
+
+        public IEnumerable<Blog> AllBlogs 
+        {
+            get
+            {
+                return _appDbContext.Blogs;
+            }
+        }
+
+        public Blog GetBlogById(int blogId)
+        {
+            return _appDbContext.Blogs.FirstOrDefault(b => b.Id == blogId);
+        }
     }
 }

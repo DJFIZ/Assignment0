@@ -28,13 +28,12 @@ namespace Assignment0
         {
             services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddScoped<BlogRepository, MockBlogRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
 
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddHttpContextAccessor();
-            services.AddRazorPages();
             services.AddSession();
             services.AddControllersWithViews();
             services.AddRazorPages();

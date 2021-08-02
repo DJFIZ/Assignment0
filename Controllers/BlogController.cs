@@ -9,9 +9,9 @@ namespace Assignment0.Controllers
 {
     public class BlogController : Controller
     {
-        private readonly BlogRepository _blogRepository;
+        private readonly IBlogRepository _blogRepository;
         
-        public BlogController(BlogRepository blogRepository)
+        public BlogController(IBlogRepository blogRepository)
         {
             _blogRepository = blogRepository;
         }
