@@ -31,6 +31,8 @@ namespace Assignment0
             services.AddDbContext<AppDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<AppDbContext>();
+
             services.AddHttpContextAccessor();
             services.AddSession();
             services.AddControllersWithViews();
