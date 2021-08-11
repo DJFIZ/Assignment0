@@ -1,4 +1,5 @@
 ﻿using Assignment0.Models;
+using Assignment0.VIewModels;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,9 @@ namespace Assignment0.Controllers
 
         public ViewResult List()
         {
-            return View(_blogRepository.AllBlogs);
+            BlogsListViewModel blogsListViewModel = new BlogsListViewModel();
+            blogsListViewModel.Blogs = _blogRepository.AllBlogs;
+            return View(blogsListViewModel);
         }
     }
 }
