@@ -11,7 +11,7 @@ namespace Assignment0.Models
             new List<Blog>
             {
                 new Blog{Id = 1, Title = "LMAO", Author = "me", Body = "sleep", Date = "Today"},
-                new Blog{Id = 2, Title = "FUCK", Author = "you", Body = "awake", Date = "Tomorrow"}
+                new Blog{Id = 2, Title = "WORK", Author = "you", Body = "awake", Date = "Tomorrow"}
             };
 
         public Blog GetBlogById(int blogId)
