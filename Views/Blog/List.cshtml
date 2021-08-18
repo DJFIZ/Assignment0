@@ -1,11 +1,11 @@
 ﻿@model BlogsListViewModel
 
+
 @foreach (var blog in Model.Blogs)
 {
-    <div>
-        <h1>Title</h1>
-        <h2>@blog.Title</h2>
-        <h3>@blog.Author</h3>
-        <h4>@blog.Body</h4>
+    <div class="text-center">
+        <h1>Title: @blog.Title</h1>
+        <h3>Author: @blog.Author</h3>
+        <h4>Body: @blog.Body</h4>
     </div>
 }
