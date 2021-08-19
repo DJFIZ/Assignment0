@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Assignment0.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -10,16 +12,31 @@ namespace Assignment0.Pages
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
+        private readonly AppDbContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger)
+        public IndexModel(AppDbContext context)
         {
-            _logger = logger;
+            _context = context;
         }
 
-        public void OnGet()
-        {
+        public IList<Blog> Blogs { get; set; }
 
+        public async Task OnGetAsync()
+        {
+            Blogs = await _context.Blogs.ToListAsync();
+        }
+
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        {
+            var blog = await _context.Blogs.FindAsync(id);
+
+            if (blog != null)
+            {
+                _context.Blogs.Remove(blog);
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage();
         }
     }
 }
