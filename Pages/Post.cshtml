@@ -18,13 +18,6 @@
             <span asp-validation-for="NewPost.Body" class="text-warning"></span>
         </div>
         <div class="col-md-12">
-            <div class="form-group">
-                <label>Upload Files</label>
-                <input type="file" name="files" multiple id="file-input" onchange="insertFiles()" />
-            </div>
-        </div>
-        <div class="col-md-12">
-            <input type="submit" name="save" class="btn btn-primary btn-sm" value="Save Draft" asp-page-handler="SaveDraft" />
             <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Publish" asp-page-handler="Publish" />
         </div>
     </div>

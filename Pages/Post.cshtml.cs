@@ -23,9 +23,10 @@ namespace Assignment0.Pages
 
         public void OnGet()
         {
+
         }
 
-        [ValidateAntiForgeryToken]
+ 
         public IActionResult OnPostPublish()
         {
             if (ModelState.IsValid)
@@ -37,7 +38,7 @@ namespace Assignment0.Pages
             return Page();
         }
 
-        [ValidateAntiForgeryToken]
+        [HttpPost]
         public IActionResult OnPostSaveDraft()
         {
             if (ModelState.IsValid)
@@ -54,10 +55,14 @@ namespace Assignment0.Pages
 
             Blog blog = new Blog
             {
+                Id = 12,
                 Title = newPost.Title,
+                Author = "TMP",
                 Body = newPost.Body,
                 Date = DateTimeOffset.Now.ToString(),
             };
+
+            _context.Blogs.Add(blog);
         }
 
         public class NewPostViewModel
