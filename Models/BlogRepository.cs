@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace Assignment0.Models
 {
+    // Repositories are cumbersome. I would use the AppDbContext directly.
+
     public class BlogRepository : IBlogRepository
     {
         private readonly AppDbContext _appDbContext;

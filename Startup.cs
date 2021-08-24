@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+// Clean up the unused "using" statements in your source files. CTRL K+E from your keyboard will do this.
+
 namespace Assignment0
 {
     public class Startup

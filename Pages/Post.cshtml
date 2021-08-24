@@ -24,5 +24,18 @@
 </form>
 
 @section Scripts {
+    @*
+        This file doesn't appear to exist anywhere, and causes 404 errors on page load (visible from Fiddler or Chrome Dev Tools).
+
+        Suggestion: remove this script reference, or create the script file.
+
+        Suggestion: there's an ASP.NET TagHelper called asp-append-version that you can use on script tags. This will
+           append an unique string to the script file's URL, effectively acting as a cache buster. Without it, if you
+           make changes to the .js file, you'll have to hard refresh your browser to get the latest code from the web
+           server. With it, any time you make a change, the unique string will also change, so you never have to worry
+           about doing a hard refresh. You'll always get the latest version of the script.
+
+           ex: <script src="~/js/updateBody.js" asp-append-version="true"></script>
+    *@
     <script src="~/js/updateBody.js"></script>
 }
