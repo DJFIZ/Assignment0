@@ -63,6 +63,8 @@ namespace Assignment0.Pages
             };
 
             _context.Blogs.Add(blog);
+
+            // Missing a call to SaveChangesAsync(), but otherwise, looks good. Try to make it async.
         }
 
         public class NewPostViewModel
