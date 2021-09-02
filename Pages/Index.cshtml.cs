@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Assignment0.Pages
@@ -20,8 +17,6 @@ namespace Assignment0.Pages
         }
 
         public IList<Blog> Blogs { get; set; }
-
-        // Looks good!
 
         public async Task OnGetAsync()
         {

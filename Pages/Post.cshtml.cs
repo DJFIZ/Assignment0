@@ -1,10 +1,9 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Microsoft.AspNetCore.Authorization;
+using Assignment0.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Assignment0.Models;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace Assignment0.Pages
 {
@@ -26,12 +25,12 @@ namespace Assignment0.Pages
 
         }
 
- 
-        public IActionResult OnPostPublish()
+
+        public async Task<IActionResult> OnPostPublish()
         {
             if (ModelState.IsValid)
             {
-                SavePost(NewPost, true);
+                await SavePostAsync(NewPost, true);
                 return Redirect("/Index");
             }
 
@@ -39,18 +38,18 @@ namespace Assignment0.Pages
         }
 
         [HttpPost]
-        public IActionResult OnPostSaveDraft()
+        public async Task<IActionResult> OnPostSaveDraftAsync()
         {
             if (ModelState.IsValid)
             {
-                SavePost(NewPost, false);
+                await SavePostAsync(NewPost, false);
                 return Redirect("/Drafts");
             }
 
             return Page();
         }
 
-        private void SavePost(NewPostViewModel newPost, bool publishPost)
+        private async Task SavePostAsync(NewPostViewModel newPost, bool publishPost)
         {
 
             Blog blog = new Blog
@@ -59,12 +58,11 @@ namespace Assignment0.Pages
                 Title = newPost.Title,
                 Author = "TMP",
                 Body = newPost.Body,
-                Date = DateTimeOffset.Now.ToString(),
+                Date = DateTime.Now,
             };
 
             _context.Blogs.Add(blog);
-
-            // Missing a call to SaveChangesAsync(), but otherwise, looks good. Try to make it async.
+            await _context.SaveChangesAsync();
         }
 
         public class NewPostViewModel
