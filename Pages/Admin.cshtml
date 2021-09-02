@@ -1,0 +1,12 @@
+﻿@page
+@model AdminModel
+@{
+    ViewData["Title"] = "Admin page";
+}
+
+@foreach (var blog in Model.Blogs)
+{
+    <div class="text-center">
+        <a>Title: @blog.Title</a><button class="delete">Delete</button>
+    </div>
+}

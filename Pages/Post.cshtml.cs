@@ -1,4 +1,5 @@
 using Assignment0.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Assignment0.Pages
 {
-    //[Authorize]
+    [Authorize]
     public class PostModel : PageModel
     {
         private readonly AppDbContext _context;
@@ -54,7 +55,7 @@ namespace Assignment0.Pages
 
             Blog blog = new Blog
             {
-                Id = 12,
+                Id = default,
                 Title = newPost.Title,
                 Author = "TMP",
                 Body = newPost.Body,
