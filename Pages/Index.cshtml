@@ -1,14 +1,31 @@
 ﻿@page
 @model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
 
-@foreach (var blog in Model.Blogs)
-{
-    <div class="text-center">
-        <h1>Title: @blog.Title</h1>
-        <h3>Author: @blog.Author</h3>
-        <h4>Body: @blog.Body</h4>
-    </div>
+@{
+    ViewData["Title"] = "Home Page";
+
+    if (!Model.Blogs.Any())
+    {
+        <div class="no_blogs">
+            <h1>Welcome!</h1>
+            <p>Get started and write your first blog post <a class="text-primary" asp-page="/Post">here</a>.</p>
+        </div>
+    }
+
+    else
+    {
+        foreach (var blog in Model.Blogs)
+        {
+            <article>
+                <div class="col-md-12">
+                    <h1><a asp-controller="Blog" asp-action="Details" asp-route-id="@blog.BlogId">@blog.Title</a></h1>
+                    <h3><a>@blog.Author</a></h3>
+                    <h5 text-faded><a>@blog.Date.ToString("MMM dd, yyyy")</a></h5>
+                    <p>@blog.Body</p>
+                    <h5><a>@blog.NumComments Comments</a></h5>
+                </div>
+            </article>
+            <br>
+        }
+    }
 }

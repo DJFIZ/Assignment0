@@ -1,0 +1,14 @@
+﻿@model Assignment0.Models.Blog
+
+ <h1>@Model.Title</h1>
+
+ <div class="details">
+     <article>
+         <div class="col-md-12">
+             <h3><a>@Model.Author</a></h3>
+             <h5 text-faded><a>@Model.Date.ToString("MMM dd, yyyy")</a></h5>
+             <p>@Model.Body</p>
+             <h5><a>@Model.NumComments Comments</a></h5>
+         </div>
+     </article>
+ </div>

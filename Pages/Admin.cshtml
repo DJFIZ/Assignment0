@@ -3,10 +3,51 @@
 @{
     ViewData["Title"] = "Admin page";
 }
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.css" />
+<script src="jquery-3.6.0.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.js"></script>
 
-@foreach (var blog in Model.Blogs)
-{
-    <div class="text-center">
-        <a>Title: @blog.Title</a><button class="delete">Delete</button>
-    </div>
-}
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Comments</th>
+            <th>Button</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>data-1a</td>
+            <td>data-1b</td>
+            <td>data-1c</td>
+            <td><button class="delete">Delete</button></td>
+        </tr>
+        <tr>
+            <td>data-2a</td>
+            <td>data-2b</td>
+            <td>data-2c</td>
+            <td><button class="delete">Delete</button></td>
+        </tr>
+        <tr>
+            <td>data-3a</td>
+            <td>data-3b</td>
+            <td>data-3c</td>
+            <td><button class="delete">Delete</button></td>
+        </tr>
+        <tr>
+            <td>data-4a</td>
+            <td>data-4b</td>
+            <td>data-4c</td>
+            <td><button class="delete">Delete</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable();
+    });
+</script>
+
+

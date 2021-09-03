@@ -6,6 +6,7 @@ namespace Assignment0.Models
     public class Comment
     {
         public int CommentId { get; set; }
+
         public int BlogId { get; set; }
 
         [Required]

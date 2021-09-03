@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace Assignment0.Models
 {
@@ -16,3 +17,4 @@ namespace Assignment0.Models
         public DbSet<Comment> Comments { get; set; }
     }
 }
+

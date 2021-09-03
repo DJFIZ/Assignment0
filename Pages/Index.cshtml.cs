@@ -18,6 +18,7 @@ namespace Assignment0.Pages
 
         public IList<Blog> Blogs { get; set; }
 
+
         public async Task OnGetAsync()
         {
             Blogs = await _context.Blogs.ToListAsync();

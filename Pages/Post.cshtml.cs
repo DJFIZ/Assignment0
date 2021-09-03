@@ -31,7 +31,7 @@ namespace Assignment0.Pages
         {
             if (ModelState.IsValid)
             {
-                await SavePostAsync(NewPost, true);
+                await SavePostAsync(NewPost);
                 return Redirect("/Index");
             }
 
@@ -43,23 +43,24 @@ namespace Assignment0.Pages
         {
             if (ModelState.IsValid)
             {
-                await SavePostAsync(NewPost, false);
+                await SavePostAsync(NewPost);
                 return Redirect("/Drafts");
             }
 
             return Page();
         }
 
-        private async Task SavePostAsync(NewPostViewModel newPost, bool publishPost)
+        private async Task SavePostAsync(NewPostViewModel newPost)
         {
 
-            Blog blog = new Blog
+            Blog blog = new()
             {
-                Id = default,
+                BlogId = default,
                 Title = newPost.Title,
-                Author = "TMP",
+                Author = this.User.ToString(),
                 Body = newPost.Body,
                 Date = DateTime.Now,
+                NumComments = 0,
             };
 
             _context.Blogs.Add(blog);

@@ -2,8 +2,6 @@
 using Assignment0.VIewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -26,8 +24,17 @@ namespace Assignment0.Controllers
 
             //  Use the async version of EF's querying methods.
             blogsListViewModel.Blogs = await _appDbContext.Blogs.ToArrayAsync();
+            blogsListViewModel.Comments = await _appDbContext.Comments.ToArrayAsync();
 
             return View(blogsListViewModel);
+        }
+
+        public IActionResult Details(int id)
+        {
+            var blog = _appDbContext.Blogs.FirstOrDefault(b => b.BlogId == id);
+            if (blog == null)
+                return NotFound();
+            return View(blog);
         }
     }
 }

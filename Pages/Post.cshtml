@@ -1,12 +1,12 @@
 ﻿@page
-@model Assignment0.Pages.PostModel
+@model PostModel
 
 <h2>Write a New Post</h2>
 
 <form method="POST" enctype="multipart/form-data">
     <div class="col-md-12 well">
         <div class="form-group col-md-6">
-            <label for="Title">Title</></label>
+            <label for="Title">Title</label>
             <input type="text" class="form-control" placeholder="" asp-for="NewPost.Title" />
             <span asp-validation-for="NewPost.Title" class="text-warning"></span>
         </div>
