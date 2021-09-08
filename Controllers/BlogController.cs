@@ -29,6 +29,39 @@ namespace Assignment0.Controllers
             return View(blogsListViewModel);
         }
 
+        /*
+        When accessing any resource that requires I/O, prefer the async version of method calls.
+
+        To access child comments for a blog post, .Include() the navigation property.
+
+        Since BlogId is the primary key on the Blogs database table, use SingleOrDefaultAsync(); there should
+        be at most one Blog record with a given id.
+
+        Also, since this action only reads entities from the database, call AsNoTracking() to avoid the
+        overhead of tracking the entities in EF Core. You only need entity tracking if you're going to 
+        load an entity, change it, and then save it back to the database in a single web request.
+
+
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var blog = await _appDbContext.Blogs
+                .Include(b => b.Comments)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(b => b.BlogId == id);
+
+            // Please always use the curly braces on single line "if" statements. I know they're optional, but by 
+            //   using braces, you eliminate a class of bugs that can happen if you accidentally
+            //   add more lines to a single-line "if". See: https://lwn.net/Articles/588369/
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            return View(blog);
+        }
+        */
+
         public IActionResult Details(int id)
         {
             var blog = _appDbContext.Blogs.FirstOrDefault(b => b.BlogId == id);

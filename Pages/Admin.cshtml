@@ -4,8 +4,39 @@
     ViewData["Title"] = "Admin page";
 }
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.css" />
-<script src="jquery-3.6.0.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.js"></script>
+@*
+    When debugging JavaScript issues, a good place to start is in your browser's Dev Tools. For Chrome, hit
+    F12 to open them. When you do that on this page, you'll see an error message telling you that the server
+    returned a 404 when trying to load jquery-3.6.0.min.js with this script declaration:
+
+    <script src="jquery-3.6.0.min.js"></script>
+
+    This looks for jquery-3.6.0.min.js in the wwwroot directory, and the file does not exist, hence the error. 
+    You can fix this in several ways (note: when including .js and .css files that don't have the version
+    number in the path, I always add the extra "asp-append-version" attribute because it appends a cache 
+    buster to the script URL, and I don't have to worry about doing a hard refresh if I make changes to 
+    the file):
+
+    * Change the script reference to the copy of jQuery included in the template:
+        <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+
+      This is what we do in FastBound. Instead of relying on CDNs to to serve the script and css files for us,
+      we have copies of them locally. We trade a little bandwidth for the security of knowing that as long as
+      our web server is still healthy, we'll always be able to serve .js and .css files, and we don't have to
+      worry about a third party CDN going down.
+
+    * Change the script reference to point to a CDN-hosted version of jQuery. For this application, that's fine
+        (copied from http://code.jquery.com/):
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    However, since this page uses the common Razor pages _Layout, including jQuery here is redundant; it's
+    already included at the bottom of _Layout.cshtml. Also, note the "RenderSection" declaration at the 
+    bottom of Pages/Shared/_Layout.cshtml. When you include JavaScript in a page content page (like this page), 
+    you want the script tags to render at the bottom of the HTML. You do this by writing the script blocks 
+    inside of a section tag. See the bottom of this page for an example.
+*@
+@* Bad script reference that results in a 404: <script src="jquery-3.6.0.min.js"></script>*@
+@* Moved to the script section below so that it renders near the end of the HTML document: <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.js"></script>*@
 
 <table id="table_id" class="display">
     <thead>
@@ -44,10 +75,21 @@
     </tbody>
 </table>
 
-<script>
-    $(document).ready(function () {
-        $('#table_id').DataTable();
-    });
-</script>
+@*<script>
+        $(document).ready(function () {
+            $('#table_id').DataTable();
+        });
+    </script>*@
+
+@* This will make the script blocks render at the bottom of the HTML document, and it fixes the jQuery datatables issue. *@
+@section Scripts
+{
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.0/datatables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable();
+        });
+    </script>
+}
 
 

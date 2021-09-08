@@ -57,7 +57,12 @@ namespace Assignment0.Pages
             {
                 BlogId = default,
                 Title = newPost.Title,
-                Author = this.User.ToString(),
+                // With ASP.NET Core Identity, the email address is stored in the User.Identity.Name
+                //   property when the user is logged in. Not intuitive; I think this is a holdover from
+                //   the olden days of .NET Framework when they first introduced ClaimsPrincipal, which is
+                //   the C# type of User.
+                //Author = this.User.ToString(),
+                Author = User.Identity.Name,
                 Body = newPost.Body,
                 Date = DateTime.Now,
                 NumComments = 0,
