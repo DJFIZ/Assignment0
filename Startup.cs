@@ -52,8 +52,18 @@ namespace Assignment0
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            // This is subtle, but you had these declarations switched, with Authorization coming before 
+            //   Authentication. This means that the request pipeline was checking to see if the user had
+            //   access to protected pages before establishing that the user was logged in, hence when
+            //   you tried to visit the Post or Admin pages, you'd get redirected to the login form.
+            // In general, you want to add these "Use*" statements in the order that they should be executed.
+            //   Here, we want to say:
+            //   1) Establish that the user is authenticated, i.e., that they have a valid username/password
+            //   2) Ensure that the authenticated user is authorized to access a protected page.
+            //app.UseAuthorization();
+            //app.UseAuthentication();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
