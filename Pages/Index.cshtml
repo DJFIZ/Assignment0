@@ -17,11 +17,10 @@
         foreach (var blog in Model.Blogs)
         {
             <article>
-                <h1><a asp-controller="Blog" asp-action="Details" asp-route-id="@blog.BlogId">@blog.Title</a></h1>
+                <h1 style="display:inline;"><a asp-controller="Blog" asp-action="Details" asp-route-id="@blog.BlogId">@blog.Title </a></h1><h5 style="display:inline;"> - @blog.Date.ToString("MMM dd, yyyy")</h5>
                 <div class="col-md-12">
-                    <h3><a>@blog.Author</a></h3>
-                    <h5><a>@blog.Date.ToString("MMM dd, yyyy")</a></h5>
-                    <h5><a>@blog.NumComments Comments</a></h5>
+                    <h3>@blog.Author</h3>
+                    <h5>@blog.NumComments Comments</h5>
                    </div>
             </article>
             <br>

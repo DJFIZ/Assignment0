@@ -22,7 +22,6 @@ namespace Assignment0.Controllers
         {
             BlogsListViewModel blogsListViewModel = new(); // This is new C# 9 syntax; not required, but I like it.
 
-            //  Use the async version of EF's querying methods.
             blogsListViewModel.Blogs = await _appDbContext.Blogs.ToArrayAsync();
             blogsListViewModel.Comments = await _appDbContext.Comments.ToArrayAsync();
 
@@ -40,9 +39,7 @@ namespace Assignment0.Controllers
         Also, since this action only reads entities from the database, call AsNoTracking() to avoid the
         overhead of tracking the entities in EF Core. You only need entity tracking if you're going to 
         load an entity, change it, and then save it back to the database in a single web request.
-
-
-
+        */
         public async Task<IActionResult> Details(int id)
         {
             var blog = await _appDbContext.Blogs
@@ -50,23 +47,11 @@ namespace Assignment0.Controllers
                 .AsNoTracking()
                 .SingleOrDefaultAsync(b => b.BlogId == id);
 
-            // Please always use the curly braces on single line "if" statements. I know they're optional, but by 
-            //   using braces, you eliminate a class of bugs that can happen if you accidentally
-            //   add more lines to a single-line "if". See: https://lwn.net/Articles/588369/
             if (blog == null)
             {
                 return NotFound();
             }
 
-            return View(blog);
-        }
-        */
-
-        public IActionResult Details(int id)
-        {
-            var blog = _appDbContext.Blogs.FirstOrDefault(b => b.BlogId == id);
-            if (blog == null)
-                return NotFound();
             return View(blog);
         }
     }
