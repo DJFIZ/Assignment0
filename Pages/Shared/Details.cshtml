@@ -4,7 +4,7 @@
         .pb-cmnt-container {
             font-family: Lato;
             margin-top: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .pb-cmnt-textarea {
@@ -22,27 +22,28 @@
 <div class="details">
     <article>
         <div class="col-md-12">
-            <h3>@Model.Author</h3>
-            <p>@Model.Body</p>
+            <h5>@Model.Author</h5>
+            <br>
+            <p>@Model.Body</p><br />
             <h5>@Model.NumComments Comments</h5>
         </div>
     </article>
 </div>
 
-<div class="container pb-cmnt-container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-info">
-                <div class="panel-body">
-                    <textarea placeholder="What are your thoughts?" class="pb-cmnt-textarea"></textarea>
-                    <form class="form-inline">
-                        <button class="btn btn-primary pull-right" type="button" onclick="publishComment()">Comment</button>
-                    </form>
-                </div>
-            </div>
+<form asp-action="Comment" asp-controller="Blog" asp-route-id="@Model.BlogId">
+    <div class="col-md-12 well">
+        <div class="form-group col-md-6">
+            <input type="text" class="form-control" placeholder="Name" name="Name"/>
+        </div><br />
+        <div class="form-group col-md-12">
+            <textarea rows="5" class="form-control" placeholder="What are your thoughts?" name="Comment"></textarea>
+        </div>
+        <div class="col-md-12">
+            <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Comment" />
         </div>
     </div>
-</div>
+</form><br /><br />
+
 
 @{
     foreach (var comment in Model.Comments)
@@ -50,7 +51,7 @@
         <article>
             <div class="col-md-12">
                 <h5>@comment.Author - @comment.Date.ToString("MMM dd, yyyy")</h5>
-                <p>@comment.Body</p>
+                <p style="text-indent: 20px;">@comment.Body</p>
             </div>
         </article>
         <br>

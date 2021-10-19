@@ -2,7 +2,6 @@
 using Assignment0.VIewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Assignment0.Controllers
@@ -53,6 +52,69 @@ namespace Assignment0.Controllers
             }
 
             return View(blog);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var blog = await _appDbContext.Blogs
+                .Include(b => b.Comments)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(b => b.BlogId == id);
+
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            return View(blog);
+        }
+
+        public async Task<IActionResult> Comment(int id, string name, string comment)
+        {
+            var blog = await _appDbContext.Blogs
+                .Include(b => b.Comments)
+                .SingleOrDefaultAsync(b => b.BlogId == id);
+
+            var c = new Comment { BlogId = id, Author = name, Body = comment, Date = System.DateTime.Now };
+
+            blog.NumComments++;
+            await _appDbContext.Comments.AddAsync(c);
+            await _appDbContext.SaveChangesAsync();
+
+            return RedirectToAction("Details", "Blog", new { id });
+        }
+
+        public async Task<IActionResult> PublishEdit(int id, string title, string body)
+        {
+            var blog = await _appDbContext.Blogs
+                .Include(b => b.Comments)
+                .SingleOrDefaultAsync(b => b.BlogId == id);
+
+            if (blog == null)
+            {
+                return NotFound();
+            }
+
+            blog.Title = title;
+            blog.Body = body;
+            await _appDbContext.SaveChangesAsync();
+
+            return Redirect("/Admin");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var blog = await _appDbContext.Blogs
+                .Include(b => b.Comments)
+                .SingleOrDefaultAsync(b => b.BlogId == id);
+
+            if (blog != null)
+            {
+                _appDbContext.Blogs.Remove(blog);
+                await _appDbContext.SaveChangesAsync();
+            }
+
+            return Redirect("/Admin");
         }
     }
 }

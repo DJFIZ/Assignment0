@@ -24,18 +24,5 @@ namespace Assignment0.Pages
         {
             Blogs = await _context.Blogs.ToListAsync();
         }
-
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
-        {
-            var blog = await _context.Blogs.FindAsync(id);
-
-            if (blog != null)
-            {
-                _context.Blogs.Remove(blog);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage();
-        }
     }
 }
