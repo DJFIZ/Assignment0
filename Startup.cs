@@ -1,4 +1,5 @@
 using Assignment0.Models;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -22,6 +23,11 @@ namespace Assignment0
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure MediatR.
+            //   This finds any classes that implement MediatR interfaces (e.g., IRequest<T>, IRequestHandler<T, U>)
+            //   in the assembly where the Startup class lives and registers them with the DI container.
+            services.AddMediatR(typeof(Startup));
+
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -31,6 +37,12 @@ namespace Assignment0
             services.AddSession();
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            // Configure AutoMapper and assert that our configuration is valid.
+            //   This finds any AutoMapper Profile-derived classes in the Assignment0 project (more specifically,
+            //   in the assembly where the Startup class lives) and register them with the DI container. I have
+            //   put them in the MappingProfiles folder.
+            services.AddAutoMapper(new[] { typeof(Startup) });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

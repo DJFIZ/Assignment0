@@ -1,4 +1,4 @@
-﻿@model Assignment0.Models.Blog
+﻿@model BlogDetails.Command
 
     <style>
         .pb-cmnt-container {
@@ -16,21 +16,21 @@
         }
     </style>
 
-<h1 style="display:inline;">@Model.Title</h1>
-<h5 style="display:inline;"> - @Model.Date.ToString("MMM dd, yyyy")</h5>
+<h1 style="display:inline;">@Model.Blog.Title</h1>
+<h5 style="display:inline;"> - @Model.Blog.Date.ToString("MMM dd, yyyy")</h5>
 
 <div class="details">
     <article>
         <div class="col-md-12">
-            <h5>@Model.Author</h5>
+            <h5>@Model.Blog.Author</h5>
             <br>
-            <p>@Model.Body</p><br />
-            <h5>@Model.NumComments Comments</h5>
+            <p>@Model.Blog.Body</p><br />
+            <h5>@Model.Blog.NumComments Comments</h5>
         </div>
     </article>
 </div>
 
-<form asp-action="Comment" asp-controller="Blog" asp-route-id="@Model.BlogId">
+<form asp-action="Comment" asp-controller="Blog" asp-route-id="@Model.Blog.BlogId">
     <div class="col-md-12 well">
         <div class="form-group col-md-6">
             <input type="text" class="form-control" placeholder="Name" name="Name"/>
@@ -46,7 +46,7 @@
 
 
 @{
-    foreach (var comment in Model.Comments)
+    foreach (var comment in Model.Blog.Comments)
     {
         <article>
             <div class="col-md-12">
