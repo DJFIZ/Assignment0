@@ -1,9 +1,8 @@
-using Assignment0.Models;
+using Assignment0.Models.Blogs;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System;
-using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Assignment0.Pages
@@ -11,15 +10,15 @@ namespace Assignment0.Pages
     [Authorize]
     public class PostModel : PageModel
     {
-        private readonly AppDbContext _context;
+        private readonly IMediator _mediator;
 
-        public PostModel(AppDbContext context)
+        public PostModel(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         [BindProperty]
-        public NewPostViewModel NewPost { get; set; }
+        public PostPage.Command NewPost { get; set; }
 
         public void OnGet()
         {
@@ -29,50 +28,30 @@ namespace Assignment0.Pages
 
         public async Task<IActionResult> OnPostPublish()
         {
+            NewPost.LoggedInUserName = User.Identity.Name;
+
             if (ModelState.IsValid)
             {
-                await SavePostAsync(NewPost);
+                // We don't do anything with this result, but you can use it to pass back
+                //   data for the postback response.
+                var result = await _mediator.Send(NewPost);
+
                 return Redirect("/Index");
             }
 
             return Page();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> OnPostSaveDraftAsync()
-        {
-            if (ModelState.IsValid)
-            {
-                await SavePostAsync(NewPost);
-                return Redirect("/Drafts");
-            }
+        ////[HttpPost]
+        //public async Task<IActionResult> OnPostSaveDraftAsync()
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        await SavePostAsync(NewPost);
+        //        return Redirect("/Drafts");
+        //    }
 
-            return Page();
-        }
-
-        private async Task SavePostAsync(NewPostViewModel newPost)
-        {
-
-            Blog blog = new()
-            {
-                BlogId = default,
-                Title = newPost.Title,
-                Author = User.Identity.Name,
-                Body = newPost.Body,
-                Date = DateTime.Now,
-                NumComments = 0,
-            };
-
-            _context.Blogs.Add(blog);
-            await _context.SaveChangesAsync();
-        }
-
-        public class NewPostViewModel
-        {
-            [Required]
-            public string Title { get; set; }
-            [Required]
-            public string Body { get; set; }
-        }
+        //    return Page();
+        //}
     }
 }
