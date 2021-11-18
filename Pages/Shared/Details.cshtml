@@ -1,20 +1,20 @@
 ﻿@model BlogDetails.Command
 
-    <style>
-        .pb-cmnt-container {
-            font-family: Lato;
-            margin-top: 20px;
-            margin-bottom: 30px;
-        }
+<style>
+    .pb-cmnt-container {
+        font-family: Lato;
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
 
-        .pb-cmnt-textarea {
-            resize: none;
-            padding: 20px;
-            height: 130px;
-            width: 100%;
-            border: 1px solid #F2F2F2;
-        }
-    </style>
+    .pb-cmnt-textarea {
+        resize: none;
+        padding: 20px;
+        height: 130px;
+        width: 100%;
+        border: 1px solid #F2F2F2;
+    }
+</style>
 
 <h1 style="display:inline;">@Model.Blog.Title</h1>
 <h5 style="display:inline;"> - @Model.Blog.Date.ToString("MMM dd, yyyy")</h5>
@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <h5>@Model.Blog.Author</h5>
             <br>
-            <p>@Model.Blog.Body</p><br />
+            <p style="white-space: pre-wrap;">@Model.Blog.Body</p><br />
             <h5>@Model.Blog.NumComments Comments</h5>
         </div>
     </article>
@@ -33,16 +33,18 @@
 <form asp-action="Comment" asp-controller="Blog" asp-route-id="@Model.Blog.BlogId">
     <div class="col-md-12 well">
         <div class="form-group col-md-6">
-            <input type="text" class="form-control" placeholder="Name" name="Name"/>
+            <input required type="text" class="form-control" placeholder="Name" name="Name" />
         </div><br />
         <div class="form-group col-md-12">
-            <textarea rows="5" class="form-control" placeholder="What are your thoughts?" name="Comment"></textarea>
+            <textarea style="white-space: pre-wrap;" required rows="5" class="form-control" placeholder="What are your thoughts?" name="Comment"></textarea>
         </div>
         <div class="col-md-12">
             <input type="submit" name="publish" class="btn btn-primary btn-sm" value="Comment" />
         </div>
     </div>
-</form><br /><br />
+</form>
+<br />
+<br />
 
 
 @{
@@ -51,7 +53,7 @@
         <article>
             <div class="col-md-12">
                 <h5>@comment.Author - @comment.Date.ToString("MMM dd, yyyy")</h5>
-                <p style="text-indent: 20px;">@comment.Body</p>
+                <p style="text-indent; white-space: pre-wrap;": 20px;">@comment.Body</p>
             </div>
         </article>
         <br>
