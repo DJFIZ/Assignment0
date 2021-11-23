@@ -4,7 +4,6 @@ using Assignment0.VIewModels;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Security.Application;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -45,65 +44,35 @@ namespace Assignment0.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(BlogDetails.Query query)
         {
-            var blog = await _appDbContext.Blogs
-                .Include(b => b.Comments)
-                .AsNoTracking()
-                .SingleOrDefaultAsync(b => b.BlogId == id);
+            var model = await _mediator.Send(query);
 
-            if (blog == null)
+            if (model.Blog is null)
             {
                 return NotFound();
             }
 
-            return View(blog);
+            return View(model);
         }
 
-        public async Task<IActionResult> Comment(int id, string name, string comment)
+        public async Task<IActionResult> Comment(PostComment.Command command)
         {
-            var blog = await _appDbContext.Blogs
-                .Include(b => b.Comments)
-                .SingleOrDefaultAsync(b => b.BlogId == id);
+            var result = await _mediator.Send(command);
 
-            var c = new Comment { BlogId = id, Author = HttpUtility.HtmlEncode(name), Body = HttpUtility.HtmlEncode(comment), Date = System.DateTime.Now };
-
-            blog.NumComments++;
-            await _appDbContext.Comments.AddAsync(c);
-            await _appDbContext.SaveChangesAsync();
-
-            return RedirectToAction("Details", "Blog", new { id });
+            return RedirectToAction("Details", "Blog", new { command.Id });
         }
 
-        public async Task<IActionResult> PublishEdit(int id, string title, string body)
+        public async Task<IActionResult> PublishEdit(PostEdit.Command command)
         {
-            var blog = await _appDbContext.Blogs
-                .Include(b => b.Comments)
-                .SingleOrDefaultAsync(b => b.BlogId == id);
-
-            if (blog == null)
-            {
-                return NotFound();
-            }
-
-            blog.Title = title;
-            blog.Body = body;
-            await _appDbContext.SaveChangesAsync();
+            var result = await _mediator.Send(command);
 
             return Redirect("/Admin");
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(BlogDelete.Command command)
         {
-            var blog = await _appDbContext.Blogs
-                .Include(b => b.Comments)
-                .SingleOrDefaultAsync(b => b.BlogId == id);
-
-            if (blog != null)
-            {
-                _appDbContext.Blogs.Remove(blog);
-                await _appDbContext.SaveChangesAsync();
-            }
+            var result = await _mediator.Send(command);
 
             return Redirect("/Admin");
         }

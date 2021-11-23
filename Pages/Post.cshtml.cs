@@ -20,12 +20,6 @@ namespace Assignment0.Pages
         [BindProperty]
         public PostPage.Command NewPost { get; set; }
 
-        public void OnGet()
-        {
-
-        }
-
-
         public async Task<IActionResult> OnPostPublish()
         {
             NewPost.LoggedInUserName = User.Identity.Name;

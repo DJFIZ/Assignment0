@@ -1,29 +1,19 @@
 ﻿using MediatR;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Assignment0.Models.Blogs
 {
-    public class PostPage
+    public class BlogDelete
     {
         public class Query : IRequest<Command>
-        { }
+        {   }
 
         public class Command : IRequest<CommandResult>
         {
-            [Required]
-            public string Title { get; set; }
-            [Required]
-            public string Body { get; set; }
-
-            //
-            // Ambient metadata - stuff needed to complete the postback, but not sent as part of the form.
-            //
-
-            public string LoggedInUserName { get; set; }
+            public int Id { get; set; }
         }
 
         public class CommandResult
@@ -62,25 +52,22 @@ namespace Assignment0.Models.Blogs
             {
                 var result = new CommandResult();
 
-                await SavePostAsync(message, cancellationToken);
+                await DeletePostAsync(message, cancellationToken);
 
                 return result;
             }
 
-            private async Task SavePostAsync(Command message, CancellationToken cancellationToken)
+            private async Task DeletePostAsync(Command message, CancellationToken cancellationToken)
             {
-                Blog blog = new()
-                {
-                    BlogId = default,
-                    Title = message.Title,
-                    Author = message.LoggedInUserName,
-                    Body = message.Body,
-                    Date = DateTime.Now,
-                    NumComments = 0,
-                };
+                var blog = await _context.Blogs
+                .Include(b => b.Comments)
+                .SingleOrDefaultAsync(b => b.BlogId == message.Id, cancellationToken);
 
-                _context.Blogs.Add(blog);
-                await _context.SaveChangesAsync(cancellationToken);
+                if (blog != null)
+                {
+                    _context.Blogs.Remove(blog);
+                    await _context.SaveChangesAsync(cancellationToken);
+                }
             }
         }
     }

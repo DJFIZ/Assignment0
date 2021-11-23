@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -7,23 +8,18 @@ using System.Threading.Tasks;
 
 namespace Assignment0.Models.Blogs
 {
-    public class PostPage
+    public class PostEdit
     {
         public class Query : IRequest<Command>
         { }
 
         public class Command : IRequest<CommandResult>
         {
+            public int Id { get; set; }
             [Required]
             public string Title { get; set; }
             [Required]
             public string Body { get; set; }
-
-            //
-            // Ambient metadata - stuff needed to complete the postback, but not sent as part of the form.
-            //
-
-            public string LoggedInUserName { get; set; }
         }
 
         public class CommandResult
@@ -62,22 +58,24 @@ namespace Assignment0.Models.Blogs
             {
                 var result = new CommandResult();
 
-                await SavePostAsync(message, cancellationToken);
+                await EditAsync(message, cancellationToken);
 
                 return result;
             }
 
-            private async Task SavePostAsync(Command message, CancellationToken cancellationToken)
+            private async Task EditAsync(Command message, CancellationToken cancellationToken)
             {
-                Blog blog = new()
+                var blog = await _context.Blogs
+                    .Include(b => b.Comments)
+                    .SingleOrDefaultAsync(b => b.BlogId == message.Id, cancellationToken);
+
+                if (blog == null)
                 {
-                    BlogId = default,
-                    Title = message.Title,
-                    Author = message.LoggedInUserName,
-                    Body = message.Body,
-                    Date = DateTime.Now,
-                    NumComments = 0,
-                };
+                    //return NotFoundException();
+                }
+
+                blog.Title = message.Title;
+                blog.Body = message.Body;
 
                 _context.Blogs.Add(blog);
                 await _context.SaveChangesAsync(cancellationToken);

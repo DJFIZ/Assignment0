@@ -53,7 +53,7 @@
         <article>
             <div class="col-md-12">
                 <h5>@comment.Author - @comment.Date.ToString("MMM dd, yyyy")</h5>
-                <p style="text-indent; white-space: pre-wrap;": 20px;">@comment.Body</p>
+                <p style="padding-left: 1em; white-space: pre-wrap;">@Html.Raw(@comment.Body)</p>
             </div>
         </article>
         <br>

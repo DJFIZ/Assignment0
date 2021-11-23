@@ -1,16 +1,16 @@
-﻿@model Assignment0.Models.Blog
+﻿@model BlogDetails.Command
 
 <h2>Edit Post</h2>
 
-<form asp-action="PublishEdit" asp-controller="Blog" asp-route-id="@Model.BlogId">
+<form asp-action="PublishEdit" asp-controller="Blog" asp-route-id="@Model.Blog.BlogId">
     <div class="col-md-12 well">
         <div class="form-group col-md-6">
             <label for="Title">Title</label>
-            <input type="text" class="form-control" value="@Model.Title" name="Title"/>
+            <input type="text" class="form-control" value="@Model.Blog.Title" name="Title"/>
         </div>
         <div class="form-group col-md-12">
             <label for="Body" class="primaryField">Body</label>
-            <textarea type="text" class="form-control" rows="10" name="Body">@Model.Body</textarea>
+            <textarea type="text" class="form-control" rows="10" name="Body">@Model.Blog.Body</textarea>
         </div>
         <div class="col-md-12">
             <input type="submit" name="PublishEdit" class="btn btn-primary btn-sm" value="Publish" />
