@@ -80,7 +80,15 @@ namespace Assignment0.Models.Blogs
                 comment.Author = HtmlEncode(message.Name, true);
                 comment.Body = HtmlEncode(message.Comment, true);
 
-                await _context.Comments.AddAsync(comment, cancellationToken);
+                // When you're updating an existing entity, you don't need to add it back to the context.
+                // Also, EF Core recommends against using "AddAsync". This is one of the rare exceptions to
+                //   preferring the Async version of methods when writing an ASP.NET Core app.
+                // From the comments on the "AddAsync" method:
+                //   This method is async only to allow special value generators, such as the one
+                //     used by 'Microsoft.EntityFrameworkCore.Metadata.SqlServerValueGenerationStrategy.SequenceHiLo',
+                //     to access the database asynchronously. For all other cases the non async method
+                //     should be used.
+                //await _context.Comments.AddAsync(comment, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
             }
 

@@ -26,6 +26,30 @@
     {
         <article>
             <div class="col-md-12">
+                @*
+                The Delete button doesn't work here because it's within a nested form, which is not supported.
+                Since the Delete button is 'type="submit"', the browser treats it as a submit button for the
+                outer EditComment form, and that is what gets posted back to the server. Clicking Delete actually
+                performs the same action as clicking Edit.
+
+                So first and foremost, you need to remove the nested "Delete" button form.
+
+                For the rest, there's no easy fix, but you have choices:
+                * Convert each button to a link, each of which goes to a new page: Edit goes to a new "Edit 
+                  Comment" page, and Delete goes to a new "Delete Comment" page. On the Edit Post page, display
+                  the comments as read-only; only allow editing the comment on the new "Edit Comment" page. For 
+                  Delete, the page will display the comment and display a message asking if you're sure you want 
+                  to delete the comment.This is probably the cleanest solution, and it's what we tend to do in 
+                  FastBound. 
+                * Make each button 'type="button"' (i.e., neither will submit the form directly), and then use
+                  JavaScript to handle the approriate action based on which button was clicked. We do some of this
+                  in FastBound, but we also have more sophisticated jQuery AJAX form handling that makes this
+                  easier. Without that, you'd have to use JavaScript to modify the form action, and that's kind
+                  of brittle, so I don't really recommend this approach.
+                * Leave each button as 'type="submit"' and handle on the server side which button was clicked. 
+                  You'll still need to use JavaScript to pass this information in the request, likely in a hidden
+                  field. We use this in one or two places in FastBound.
+                *@
                 <form asp-controller="Blog" asp-action="EditComment" asp-route-id="@comment.CommentId">
                     <div class="col-md-12 well">
                         <div class="form-group col-md-6">
