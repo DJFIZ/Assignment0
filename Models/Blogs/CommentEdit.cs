@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Assignment0.Models.Blogs
 {
-    public class PostComment
+    public class CommentEdit
     {
         public class Query : IRequest<Command>
         { }
@@ -69,27 +69,22 @@ namespace Assignment0.Models.Blogs
 
             private async Task CommentAsync(Command message, CancellationToken cancellationToken)
             {
-                var blog = await _context.Blogs
-                    .Include(b => b.Comments)
-                    .SingleOrDefaultAsync(b => b.BlogId == message.Id, cancellationToken);
+                var comment = await _context.Comments
+                .SingleOrDefaultAsync(c => c.CommentId == message.Id, cancellationToken);
 
-
-                Console.WriteLine(message.Comment);
-
-                var c = new Comment
+                 if (comment == null)
                 {
-                    BlogId = message.Id,
-                    Author = HtmlEncode(message.Name, true),
-                    Body = HtmlEncode(message.Comment, true),
-                    Date = DateTime.Now
-                };
+                    //return NotFoundException();
+                }
 
-                blog.NumComments++;
-                await _context.Comments.AddAsync(c);
+                comment.Author = HtmlEncode(message.Name, true);
+                comment.Body = HtmlEncode(message.Comment, true);
+
+                await _context.Comments.AddAsync(comment, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
             }
 
-            public static string HtmlEncode(string? text, bool preserveNewlines)
+            public static string HtmlEncode(string text, bool preserveNewlines)
             {
                 if (string.IsNullOrWhiteSpace(text))
                 {

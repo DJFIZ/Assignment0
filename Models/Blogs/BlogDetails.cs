@@ -75,7 +75,7 @@ namespace Assignment0.Models.Blogs
 
                 var blog = await _appDbContext.Blogs
                     .Include(b => b.Comments)
-                    .AsNoTracking()
+                    //.AsNoTracking()
                     .SingleOrDefaultAsync(b => b.BlogId == message.Id, cancellationToken);
 
                 command.Blog = _mapper.Map<Command.BlogModel>(blog);

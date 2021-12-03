@@ -5,7 +5,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Assignment0.Controllers
 {
@@ -56,14 +55,21 @@ namespace Assignment0.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Comment(PostComment.Command command)
+        public async Task<IActionResult> Comment(CommentPost.Command command)
         {
             var result = await _mediator.Send(command);
 
             return RedirectToAction("Details", "Blog", new { command.Id });
         }
 
-        public async Task<IActionResult> PublishEdit(PostEdit.Command command)
+        public async Task<IActionResult> EditComment(CommentEdit.Command command)
+        {
+            var result = await _mediator.Send(command);
+
+            return Redirect("/Admin");
+        }
+
+        public async Task<IActionResult> PublishEdit(BlogEdit.Command command)
         {
             var result = await _mediator.Send(command);
 
@@ -71,6 +77,13 @@ namespace Assignment0.Controllers
         }
 
         public async Task<IActionResult> Delete(BlogDelete.Command command)
+        {
+            var result = await _mediator.Send(command);
+
+            return Redirect("/Admin");
+        }
+
+        public async Task<IActionResult> DeleteComment(CommentDelete.Command command)
         {
             var result = await _mediator.Send(command);
 

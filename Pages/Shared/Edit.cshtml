@@ -6,7 +6,7 @@
     <div class="col-md-12 well">
         <div class="form-group col-md-6">
             <label for="Title">Title</label>
-            <input type="text" class="form-control" value="@Model.Blog.Title" name="Title"/>
+            <input type="text" class="form-control" value="@Model.Blog.Title" name="Title" />
         </div>
         <div class="form-group col-md-12">
             <label for="Body" class="primaryField">Body</label>
@@ -17,3 +17,34 @@
         </div>
     </div>
 </form>
+<br />
+<br />
+
+
+@{
+    foreach (var comment in Model.Blog.Comments)
+    {
+        <article>
+            <div class="col-md-12">
+                <form asp-controller="Blog" asp-action="EditComment" asp-route-id="@comment.CommentId">
+                    <div class="col-md-12 well">
+                        <div class="form-group col-md-6">
+                            <input required type="text" class="form-control" name="Name" value="@comment.Author" />
+                        </div><br />
+                        <div class="form-group col-md-12">
+                            <textarea style="white-space: pre-wrap;" required rows="5" class="form-control" name="Comment">@comment.Body</textarea>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" name="edit" class="btn btn-primary btn-sm" value="Edit" />
+                            <form asp-controller="Blog" asp-action="Delete" asp-route-id="@comment.CommentId" onclick="return confirm('Are you sure you want to delete this?')">
+                                <button type="submit" name="delete" class="btn btn-primary btn-sm" >Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </article>
+        <br>
+    }
+}

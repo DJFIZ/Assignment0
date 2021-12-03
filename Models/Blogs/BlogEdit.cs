@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Assignment0.Models.Blogs
 {
-    public class PostEdit
+    public class BlogEdit
     {
         public class Query : IRequest<Command>
         { }
